@@ -114,7 +114,7 @@ function uptadeTotals() {
 
       // Remove caracteres nao numericos
       let value = itemAmount.textContent
-        .replace(/[^\d]/g, "")
+        .replace(/[^\d,]/g, "")
         .replace(",", ".");
 
       // Converte o valor para float
@@ -129,9 +129,27 @@ function uptadeTotals() {
       total += Number(value);
     }
 
-    expensesTotal.textContent = total;
+    // Cria a span para adicionar o R$ formatado
+    const symbolBRL = document.createElement("small");
+    symbolBRL.textContent = "R$";
+
+    // Formata o valor e remove o R$ que sera exibido pela small com estilo customizado
+    total = formatCurrencyBRL(total).toUpperCase().replace("R$", "");
+
+    // limpa o conteudo do elemento
+    expensesTotal.innerHTML = "";
+    // Adiciona o simbolo e o valor
+    expensesTotal.append(symbolBRL, total);
   } catch (error) {
     console.log(error);
     alert("Nãp foi possivel atualizar os totais");
   }
 }
+
+// Evento que captura o clique nos itens da lista
+expenseList.addEventListener("click", function (event) {
+  // Verificar se o elemento clicado é o item de remover
+  if (event.target.classList.contains("remove-icon")) {
+    console.log(event);
+  }
+});
